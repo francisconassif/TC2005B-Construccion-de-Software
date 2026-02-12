@@ -1,0 +1,24 @@
+{
+  "name": "html",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/francisconassif/TC2005B-Construccion-de-Software.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/francisconassif/TC2005B-Construccion-de-Software/issues"
+  },
+  "homepage": "https://github.com/francisconassif/TC2005B-Construccion-de-Software#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
