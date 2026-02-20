@@ -4,30 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TC2005B</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <h1>Profile</h1>
-    <nav>
-        <ol>
-            <li><a href="..">Home</a></li>
-            <li><a href="../profile.html">Profile</a></li>
-            <li><a href="../imgs">imgs</a></li>
-            <li><a href="../about.html">About</a></li>
-            <li><a href="../login">Login</a></li>
-        </ol>
+<body class="bg-warning-subtle">
+
+    <nav class="navbar navbar-expand-lg navbar-dark mt-5 mb-5" style="background-color: #009B3A;">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="http://localhost:8080">
+            🇧🇷 My profile
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                <a class="nav-link text-warning fw-semibold" href="..">Home</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link text-warning fw-semibold" href="../profile.html">Profile</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link text-warning fw-semibold" href="../imgs">Images</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="nav-link text-warning fw-semibold" href="../about.html">About</a>
+                </li>
+
+                <li class="nav-item">
+                <a class="btn btn-warning ms-3 fw-bold" href="../login">
+                    Login
+                </a>
+                </li>
+
+            </ul>
+            </div>
+
+        </div>
     </nav>
-    <p>One of my idols, Fuleco:</p>
-    <img src="../assets/fuleco.png" alt="One of my idols, Fuleco">
-    <p>
-    My name is Francisco Nassif and I'm a 23 year-old Computer Science undergraduate at University of São Paulo. I'm currently enrolled on a exchange program at Tecnológico de Monterrey.</p>
 
-    <p>I love to drink coffee and listen to brazilian music.</p>
+    <div class="container">
 
-    <nav><a href="../acervo">Some great music</a></nav>
+        <p class="lead text-center mb-4">First, here's one of my idols, Fuleco:</p>
 
-    <p>My university:</p>
-    <img src="../assets/usp.png" alt="University of São Paulo">
+        <img src="../assets/fuleco.png"
+             alt="fuleco"
+             class="img-fluid d-block mx-auto rounded shadow mb-5 img-hover"
+             style="max-width: 300px;">
+
+        <p class="fs-5 text-center px-md-5">
+        My name is Francisco Nassif and I'm a 23 year-old Computer Science undergraduate at University of São Paulo. I'm currently enrolled on a exchange program at Tecnológico de Monterrey.</p>
+
+        <p class="fs-5 text-center mb-4">I love to drink coffee ☕ and listen to brazilian music 🥁</p>
+
+        <nav class="text-center mb-5">
+            <a href="../acervo" class="btn btn-warning btn-lg shadow-sm">
+                Some great music
+            </a>
+        </nav>
+
+        <p class="lead text-center mb-4">I also love my University, take a look:</p>
+
+        <img src="../assets/usp.png"
+             alt="University of São Paulo"
+             class="img-fluid d-block mx-auto rounded shadow mb-5 img-hover"
+             style="max-width: 600px;">
+
+    </div>
+
 </body>
-
 </html>
