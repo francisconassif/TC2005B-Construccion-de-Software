@@ -1,0 +1,5 @@
+export const getAPI = (req, res) => res.send("Hola mundo desde mi API")
+export const postAPI = (req, res) => res.send("post a / ")
+export const getPolo = (req, res) => res.send("polo")
+export const getPing = (req, res) => res.send("pong")
+export const getABC = (req, res) => res.send("ABC")
