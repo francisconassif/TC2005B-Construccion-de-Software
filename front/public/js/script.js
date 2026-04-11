@@ -4,6 +4,8 @@ console.log("hola");
 
 document.addEventListener("DOMContentLoaded", () => {
 
+    const apiBaseUrl = "http://localhost:5000";
+
     const btnFuleco = document.getElementById("btnFuleco");
 
     if(btnFuleco){
@@ -32,27 +34,34 @@ document.addEventListener("DOMContentLoaded", () => {
             const email = document.getElementById("correo").value.trim();
             const password = document.getElementById("password").value.trim();
 
-            // mock
-            const emailCorrecto = "admin@gmail.com";
-            const passwordCorrecto = "1234";
-
             if (!email || !password) {
                 alert("Todos los campos son obligatorios");
                 return;
             }
 
-            if (email === emailCorrecto && password === passwordCorrecto){
+            fetch(`${apiBaseUrl}/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: email,
+                    password
+                })
+            })
+            .then(async (response) => {
+                const data = await response.json();
+
+                if (!response.ok || !data.isLogin) {
+                    throw new Error(data.message || "Credenciales incorrectas o usuario no registrado");
+                }
 
                 alert("Login hecho");
-
                 window.location.href = "/index.html";
-
-            }
-            else {
-
-                alert("Credenciales incorrectas o usuario no registrado");
-
-            }
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
 
         });
 

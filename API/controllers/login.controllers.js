@@ -1,5 +1,5 @@
 import { db_connect } from "../utils/db.js";
-import { hash } from "../"
+import { hash } from "../utils/hash.js"
 
 export const login = async (req, res)=>{
     const sql = db_connect()
@@ -8,13 +8,15 @@ export const login = async (req, res)=>{
     const text = "select * from users where username=$1"
     const values = [username]
     const result = await sql.query(text,values)
-    console.log(result.rows[0])
-    if(result.rows[0].password === password){
-        res.status(200).json({isLogin:true, user:result.rows[0]})
+    const user = result.rows[0]
+
+    if(!user){
+        return res.status(404).json({isLogin:false, user:null, message:"Usuario no encontrado"})
     }
-    else{
-        res.status(404).json({isLogin:false, user:{}})
+
+    if(user.password === password){
+        return res.status(200).json({isLogin:true, user})
     }
-    
-    res.send("post login");
+
+    return res.status(401).json({isLogin:false, user:null, message:"Credenciales incorrectas"})
 }

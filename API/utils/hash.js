@@ -1,4 +1,4 @@
-import crypto, { hash } from "crypto"
+import crypto from "crypto"
 
 export const hash = (password, salt)=>{
     const salted = salt + password + salt;
@@ -10,10 +10,3 @@ export const hash = (password, salt)=>{
 export const getSalt = (size) => {
     return crypto.randomBytes(size).toString("base64url").substring(0, size);
 }
-
-// let msg = "Hola";
-
-// const salt = crypto.randomBytes(24);
-
-// const newMeg = salt.toString("base64url") + msg;
-
