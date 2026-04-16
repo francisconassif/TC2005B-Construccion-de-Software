@@ -2,7 +2,6 @@ import "dotenv/config"
 import express from "express"
 import cors from "cors"
 import indexRoutes from "./routes/index.routes.js"
-import { db_connect } from "./utils/db.js"
 import loginRoutes from "./routes/login.routes.js"
 import usersRoutes from "./routes/users.routes.js"
  
