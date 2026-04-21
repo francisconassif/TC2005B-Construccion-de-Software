@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<html lang="es"> 
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Register</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../style.css">
 </head>
 
 <body class="bg-warning-subtle">
     <div id="app-navbar"></div>
 
-
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-6 mb-4">
                 <div class="p-4">
-                    <h2 class="fw-bold text-success">Welcome! ¡Bienvenido!</h2>
+                    <h2 class="fw-bold text-success">Create your account</h2>
                     <p class="lead mt-3">
-                        Please login so we can talk about México, about exchange or about Brazil. Logged-in exclusive features:
+                        Register now and unlock your profile. You can share images, connect with people and start conversations.
                     </p>
 
                     <ul class="list-unstyled">
-                        <li>Share images</li>
-                        <li>Start a conversation</li>
-                        <li>Send your message to the world</li>
+                        <li>One account per email</li>
+                        <li>Fast and secure signup</li>
+                        <li>Ready to login in seconds</li>
                     </ul>
                 </div>
             </div>
 
             <div class="col-lg-5">
                 <div class="card shadow-lg p-4 border-0 rounded-4">
-                    <h3 class="text-center mb-4">Login</h3>
+                    <h3 class="text-center mb-4">Register</h3>
 
-                    <form id="login-form">
+                    <form id="register-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Tu nombre">
+                        </div>
 
                         <div class="mb-3">
                             <label for="correo" class="form-label">E-mail address</label>
@@ -45,23 +47,25 @@
                             <input type="password" class="form-control" id="password" name="password" placeholder="********">
                         </div>
 
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="********">
+                        </div>
+
                         <button type="submit" class="btn btn-success w-100 mt-3 fw-bold">
-                            Login
+                            Create account
                         </button>
 
                         <p class="text-center mt-3 mb-0">
-                            <a href="../register" class="text-success fw-semibold text-decoration-none">New user (click to register)</a>
+                            <a href="../login" class="text-success fw-semibold text-decoration-none">Already have an account? Login</a>
                         </p>
-
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
+
     <script src="../js/navbar.js"></script>
     <script src="../js/script.js"></script>
-
 </body>
-
 </html>

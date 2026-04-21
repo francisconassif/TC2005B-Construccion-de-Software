@@ -3,11 +3,46 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unity Web Player | TC2005</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <script>
+      (function () {
+        try {
+          const userString = localStorage.getItem("authUser");
+          if (!userString) {
+            window.location.replace("/login");
+            return;
+          }
+
+          let userId = null;
+          try {
+            const parsed = JSON.parse(userString);
+            userId = parsed?.id || parsed?.userId || null;
+          } catch {
+            userId = userString;
+          }
+
+          if (!userId) {
+            window.location.replace("/login");
+            return;
+          }
+
+          const currentUrl = new URL(window.location.href);
+          if (currentUrl.searchParams.get("playerId") !== String(userId)) {
+            currentUrl.searchParams.set("playerId", String(userId));
+            window.history.replaceState({}, "", currentUrl.toString());
+          }
+        } catch {
+          window.location.replace("/login");
+        }
+      })();
+    </script>
   </head>
-  <body>
+  <body class="bg-warning-subtle">
+    <div id="app-navbar"></div>
     <div id="unity-container" class="unity-desktop">
       <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
@@ -26,12 +61,6 @@
     <script>
       var canvas = document.querySelector("#unity-canvas");
 
-      // Shows a temporary message banner/ribbon for a few seconds, or
-      // a permanent error message on top of the canvas if type=='error'.
-      // If type=='warning', a yellow highlight color is used.
-      // Modify or remove this function to customize the visually presented
-      // way that non-critical warnings and error messages are presented to the
-      // user.
       function unityShowBanner(msg, type) {
         var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
@@ -52,58 +81,27 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Build_WebGL.loader.js";
+      var buildName = "Snake";
+      var loaderUrl = buildUrl + "/" + buildName + ".loader.js";
       var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/Build_WebGL.data",
-        frameworkUrl: buildUrl + "/Build_WebGL.framework.js",
-        codeUrl: buildUrl + "/Build_WebGL.wasm",
+        dataUrl: buildUrl + "/" + buildName + ".data",
+        frameworkUrl: buildUrl + "/" + buildName + ".framework.js",
+        codeUrl: buildUrl + "/" + buildName + ".wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "TC2005",
         productVersion: "1.0",
         showBanner: unityShowBanner,
-        // errorHandler: function(err, url, line) {
-        //    alert("error " + err + " occurred at line " + line);
-        //    // Return 'true' if you handled this error and don't want Unity
-        //    // to process it further, 'false' otherwise.
-        //    return true;
-        // },
       };
 
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
-      // If you would like all file writes inside Unity Application.persistentDataPath
-      // directory to automatically persist so that the contents are remembered when
-      // the user revisits the site the next time, uncomment the following line:
-      // config.autoSyncPersistentDataPath = true;
-      // This autosyncing is currently not the default behavior to avoid regressing
-      // existing user projects that might rely on the earlier manual
-      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
-      // expected to change.
-
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
         document.getElementsByTagName('head')[0].appendChild(meta);
         document.querySelector("#unity-container").className = "unity-mobile";
         canvas.className = "unity-mobile";
-
-        // To lower canvas resolution on mobile devices to gain some
-        // performance, uncomment the following line:
-        // config.devicePixelRatio = 1;
-
-
       } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
         canvas.style.width = "960px";
         canvas.style.height = "600px";
       }
@@ -115,19 +113,58 @@
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
+        }).then((unityInstance) => {
+          document.querySelector("#unity-loading-bar").style.display = "none";
+          document.querySelector("#unity-fullscreen-button").onclick = () => {
+            unityInstance.SetFullscreen(1);
+          };
 
-              }).catch((message) => {
-                alert(message);
-              });
+          try {
+            
+            const currentUrl = new URL(window.location.href);
+            const userId = currentUrl.searchParams.get("playerId");
+
+            if (!userId) {
+              throw new Error("user id not found");
+            }
+
+            const apiBaseUrl = "http://localhost:5000";
+
+            
+            fetch(`${apiBaseUrl}/usuario/${userId}/score`)
+              .then(response => response.json())
+              .then(dadosUsuario => {
+                
+                const stringDeDados = `${dadosUsuario.nome}|${dadosUsuario.recorde}`;
+                
+                unityInstance.SendMessage("WebBridge", "ReceberDadosDoUsuario", stringDeDados);
+              })
+              .catch(err => console.error("game error", err));
+
+            window.dispatchUnityScore = function(novoRecorde) {
+              console.log("new high score: ", novoRecorde);
+              
+              fetch(`${apiBaseUrl}/usuario/${userId}/score`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ novoRecorde: novoRecorde })
+              }).then(() => {
+                console.log("score updated");
+              }).catch(err => console.error("error saving the score", err));
             };
 
-      document.body.appendChild(script);
+          } catch (e) {
+            console.error("game error", e);
+          }
 
+        }).catch((message) => {
+          alert(message);
+        });
+      };
+
+      document.body.appendChild(script);
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="../js/navbar.js"></script>
   </body>
 </html>

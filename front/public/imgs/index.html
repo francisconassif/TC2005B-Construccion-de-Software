@@ -9,49 +9,7 @@
 </head>
 
 <body class="bg-warning-subtle">
-    <nav class="navbar navbar-expand-lg navbar-dark mt-5 mb-5" style="background-color: #009B3A;">
-        <div class="container">
-
-            <a class="navbar-brand fw-bold" href="http://localhost:8080">
-            🇧🇷 Gallery
-            </a>
-
-            <button class="navbar-toggler" type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-
-                <li class="nav-item">
-                <a class="nav-link text-warning fw-semibold" href="..">Home</a>
-                </li>
-
-                <li class="nav-item">
-                <a class="nav-link text-warning fw-semibold" href="../profile.html">Profile</a>
-                </li>
-
-                <li class="nav-item">
-                <a class="nav-link text-warning fw-semibold" href="../imgs">Images</a>
-                </li>
-
-                <li class="nav-item">
-                <a class="nav-link text-warning fw-semibold" href="../about.html">About</a>
-                </li>
-
-                <li class="nav-item">
-                <a class="btn btn-warning ms-3 fw-bold" href="../login">
-                    Login
-                </a>
-                </li>
-
-            </ul>
-            </div>
-
-        </div>
-    </nav>
+    <div id="app-navbar"></div>
 
     <div class="container mt-4">
         <h2 class="text-center mb-4">Photo Gallery</h2>
@@ -77,8 +35,9 @@
         gallery.appendChild(col);
         });
     })
-    .catch(error => console.error("Erro ao carregar imagens:", error));
+    .catch(error => console.error("error loading imgs", error));
     </script>
+    <script src="../js/navbar.js"></script>
     <script src="../js/script.js"></script>
 </body>
 
